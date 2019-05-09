@@ -1,20 +1,45 @@
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 var webpack = require('webpack');
+var path = require('path');
+
+var basePath = __dirname;
 
 module.exports = {
+    context: path.join(basePath, 'src'),
+    resolve: {
+        extensions: ['.js', '.ts']
+    },
     entry: [
         '@babel/polyfill',
-        './students.js'
+        './students.ts'
     ],
     output: {
         filename: 'bundle.js'
     },
     module: {
         rules: [{
-            test: /\.js$/,
-            exclude: /node_modules/,
-            loader: 'babel-loader'
-        }]
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: 'babel-loader'
+            }, {
+                test: /\.(ts|tsx)$/,
+                exclude: /node_modules/,
+                loader: 'awesome-typescript-loader',
+                options: {
+                    useBabel: true,
+                    "babelCore": "@babel/core", //needed for babel 7
+                }
+            },
+            {
+                test: /\.(png|jpg)$/,
+                exclude: /node_modules/,
+                loader: 'url-loader?limit=5000',
+            }, {
+                test: /\.html$/,
+                exclude: /node_modules/,
+                loader: 'html-loader',
+            }
+        ]
     },
     plugins: [
         new HtmlWebpackPlugin({
