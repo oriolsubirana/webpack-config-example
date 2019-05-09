@@ -13,6 +13,7 @@ module.exports = {
         '@babel/polyfill',
         './students.ts'
     ],
+    devtool: 'inline-source-map',
     output: {
         filename: 'bundle.js'
     },
